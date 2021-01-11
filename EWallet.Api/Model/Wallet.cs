@@ -9,7 +9,7 @@ namespace EWallet.Api.Model
         public User User { get; set; }
         public string Currency { get; set; }
         public decimal Balance { get; set; }
-        public bool IsMain { get; set; }
+        public bool IsMainCurrency { get; set; }
         public DateTime DateCreated { get; set; }
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace EWallet.Api.Model
 {
-    public class FundRequests
+    public class Fund
     {
         public int Id { get; set; }
         public int WalletId { get; set; }
@@ -15,7 +15,7 @@ namespace EWallet.Api.Model
         public decimal Amount { get; set; }
         public DateTime RequestDate { get; set; } = DateTime.Now;
         public DateTime ApprovedDate { get; set; }
-        public bool IsApproved { get; set; } = false;
+        public RequestStatus Status { get; set; } = RequestStatus.Pending;
 
         [ForeignKey("User")]
         public string ApprovedBy { get; set; }
