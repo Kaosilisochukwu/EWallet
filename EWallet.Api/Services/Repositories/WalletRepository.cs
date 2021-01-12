@@ -2,6 +2,7 @@
 using EWallet.Api.DTOs;
 using EWallet.Api.Model;
 using EWallet.Api.Services.Interfaces;
+using EWallet.Api.Utils;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -20,13 +21,31 @@ namespace EWallet.Api.Services.Repositories
         }
         public async Task<int> AddWAllet(Wallet model)
         {
-            await _context.Wallets.AddAsync(model);
+            var user = await _context.Users.FirstOrDefaultAsync(user => user.Id == model.UserId);
+            if(user != null)
+            {
+                if(user.Role == "Elite" || user.Role == "Noob" && !_context.Wallets.Any(wallet => wallet.UserId == user.Id))
+                {
+                    if (!_context.Wallets.Any(wallet => wallet.UserId == user.Id))
+                        model.IsMainCurrency = true;
+                    await _context.Wallets.AddAsync(model);
+                }
+            }
             return await _context.SaveChangesAsync();
         }
 
-        public Task<int> ChangeMainCurrency(string currency, string userId)
+        public async Task<int> ChangeMainCurrency(string currency, string userId)
         {
-            throw new NotImplementedException();
+            var user = _context.Users.FirstOrDefault(user => user.Id == userId);
+            if(user.Role == "Elite")
+            {
+                var mainWallet = _context.Wallets.FirstOrDefault(wallet => wallet.UserId == userId && wallet.IsMainCurrency);
+                var newMainWallet = _context.Wallets.FirstOrDefault(wallet => wallet.Currency == currency);
+                mainWallet.IsMainCurrency = false;
+                newMainWallet.IsMainCurrency = true;
+                _context.Wallets.AddRange(new List<Wallet> { mainWallet, newMainWallet });
+            }
+            return await _context.SaveChangesAsync();
         }
 
         public async Task<int> DeleteWallet(int walletId)
@@ -64,6 +83,13 @@ namespace EWallet.Api.Services.Repositories
             _context.Wallets.Update(model);
             return await _context.SaveChangesAsync();
         }
+
+
+        public async Task<Wallet> GetMainWallet(string userId)
+        {
+            return await _context.Wallets.FirstOrDefaultAsync(wallet => wallet.IsMainCurrency && wallet.UserId == userId);
+        }
+        
 
         public async Task<int> Withdrawfunds(WithdrawFundsDTO model, string userId)
         {

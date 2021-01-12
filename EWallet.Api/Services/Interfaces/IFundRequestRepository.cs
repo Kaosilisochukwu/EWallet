@@ -9,8 +9,8 @@ namespace EWallet.Api.Services.Interfaces
 {
     public interface IFundRequestRepository
     {
-        Task<int> RequestFunding(Fund model);
-        Task<int> ApproveFundRequest(int requestId);
-        Task<int> DeclineFundRequest(int requestId);
+        public Task<int> RequestFunding(Fund model);
+        public Task<int> ApproveFundRequest(int requestId);
+        public Task<int> DeclineFundRequest(int requestId);
     }
 }

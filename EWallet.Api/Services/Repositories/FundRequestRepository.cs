@@ -1,12 +1,8 @@
-﻿    using EWallet.Api.Data;
-    using EWallet.Api.DTOs;
+﻿using EWallet.Api.Data;
 using EWallet.Api.Model;
 using EWallet.Api.Services.Interfaces;
-    using Microsoft.EntityFrameworkCore;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace EWallet.Api.Services.Repositories
 {
@@ -20,6 +16,8 @@ namespace EWallet.Api.Services.Repositories
             _context = context;
             _walletRepository = walletRepository;
         }
+
+
         public async Task<int> ApproveFundRequest(int requestId)
         {
             var request = await _context.FundRequests.FirstOrDefaultAsync(fundRequest => fundRequest.Id == requestId);
