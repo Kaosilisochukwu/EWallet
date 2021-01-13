@@ -11,6 +11,7 @@ namespace EWallet.Api.DTOs
 
         [Required(ErrorMessage = "Funding currency is required", AllowEmptyStrings = false)]
         [StringLength(3, MinimumLength = 3, ErrorMessage = "Funding currency must be 3 characters")]
+        [ValidateCurrencies(ErrorMessage = "Currency is not supported")]
         public string FundingCurrency { get; set; }
 
         [Required(ErrorMessage = "Amount is required")]

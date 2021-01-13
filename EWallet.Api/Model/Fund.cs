@@ -17,6 +17,7 @@ namespace EWallet.Api.Model
         public Wallet Wallet { get; set; }
         [Required(ErrorMessage = "Funding Currency is required")]
         [StringLength(3, MinimumLength = 3, ErrorMessage = "Field must have 3 characters")]
+        [ValidateCurrencies(ErrorMessage = "Currency is not supported")]
         public string FundingCurrency { get; set; }
 
         [Required(ErrorMessage = "Amount is required")]

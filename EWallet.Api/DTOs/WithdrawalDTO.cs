@@ -3,12 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace EWallet.Api.Model
+namespace EWallet.Api.DTOs
 {
-    public enum RequestStatus
+    public class WithdrawalDTO : WalletToAdd
     {
-        Pending,
-        Approved,
-        Declined
     }
 }

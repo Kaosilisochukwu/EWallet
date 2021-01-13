@@ -11,6 +11,7 @@ namespace EWallet.Api.DTOs
     {
         [Required(ErrorMessage = "Wallet currency is required")]
         [StringLength(3, MinimumLength = 3, ErrorMessage = "Currency must be three characters")]
+        [ValidateCurrencies(ErrorMessage = "Currency is not supported")]
         public string Currency { get; set; }
 
         public decimal Amount { get; set; }
