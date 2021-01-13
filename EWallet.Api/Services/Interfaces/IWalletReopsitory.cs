@@ -17,6 +17,13 @@ namespace EWallet.Api.Services.Interfaces
         public Task<Wallet> GetWalletById(int walletId);
         public Task<int> FundWallet(int walletId, decimal amount);
         public Task<int> Withdrawfunds(WithdrawFundsDTO model, string userId);
-        public Task<int> ChangeMainCurrency(string currency, string userId);
+        public Task<int> ChangeMainCurrency(CurrencyToChange model);
+        public Task<int> RequestFunding(Fund model);
+        public Task<int> ApproveFundRequest(int requestId, string userId);
+        public Task<int> DeclineFundRequest(int requestId);
+        public Task<Fund> GetRequestById(int requestId);
+        public Task<IEnumerable<Wallet>> GetWalletByCurrency(string currecny);
+        public Task<Wallet> GetMainCurrency(string userId);
+        public Task<int> AdminFunding(FundRequestDTO model);
     }
 }
