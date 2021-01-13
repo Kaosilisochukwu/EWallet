@@ -2,7 +2,6 @@ using AutoMapper;
 using EWallet.Api.Data;
 using EWallet.Api.Model;
 using EWallet.Api.Services.Repositories;
-using EWallet.Api.Utils;
 using ExpenseTracker.WebAPI.Maps;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -34,7 +33,7 @@ namespace EWallet.Api
             services.AddControllers();
             services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DbConnection")));
             services.AddScoped<WalletRepository>();
-            services.AddScoped<FundRequestRepository>();
+            services.AddScoped<UserRepository>();
             services.AddIdentityCore<User>().AddEntityFrameworkStores<AppDbContext>();
             services.AddHttpContextAccessor();
 
