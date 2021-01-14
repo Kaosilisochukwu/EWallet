@@ -31,6 +31,7 @@ namespace EWallet.Api
         {
             services.AddAutoMapper(typeof(MappingProfiles));
             services.AddControllers();
+            services.AddHealthChecks();
             services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DbConnection")));
             services.AddScoped<WalletRepository>();
             services.AddScoped<UserRepository>();
@@ -110,6 +111,7 @@ namespace EWallet.Api
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapHealthChecks("/healthCare");
                 endpoints.MapControllers();
             });
         }

@@ -14,8 +14,8 @@ namespace EWallet.Api.Utils
             Data = data;
         }
 
-        public int StatusCode { get; }
-        public string Message { get; }
-        public object Data { get; }
+        public int StatusCode { get; set; }
+        public string Message { get; set; }
+        public object Data { get; set; }
     }
 }

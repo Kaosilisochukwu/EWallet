@@ -117,28 +117,22 @@ namespace EWallet.Api.Controllers
                     {
                         var walletCurrency = wallet.Currency;
                         var fundRequest = _mapper.Map<Fund>(model);
-                        if (user.Role == "Noob")
-                        {
-                            var convertedAmount = await Currency.ConvertCurrency(model.FundingCurrency, wallet.Currency, model.Amount);
-                            fundRequest.Amount = convertedAmount;
-                            fundRequest.FundingCurrency = walletCurrency;
-                            var requestResult = await _walletRepo.RequestFunding(fundRequest);
-                            if (requestResult > 0)
-                                return Created("request", new ResponseModel(200, "Request successful", model));
-                        }
+                        var convertedAmount = await Currency.ConvertCurrency(model.FundingCurrency, wallet.Currency, model.Amount);
+                        fundRequest.Amount = convertedAmount;
+                        fundRequest.FundingCurrency = walletCurrency;
+                        var requestResult = await _walletRepo.RequestFunding(fundRequest);
+                        if (requestResult > 0)
+                            return Created("request", new ResponseModel(200, "Request successful", model));
                         return BadRequest(new ResponseModel(400, "Funding Failed", model));
                     }
                     else if (user.Role == "Elite")
                     {
                         int fundRequestResult = 0;
                         if (wallet == null)
-                        {
                             fundRequestResult = await _walletRepo.AddWAllet(new Wallet { Currency = model.FundingCurrency, Balance = model.Amount, UserId = userId });
-                        }
                         else
-                        {
                             fundRequestResult = await _walletRepo.FundWallet(wallet.Id, model.Amount);
-                        }
+
                         if (fundRequestResult > 0)
                             return Ok(new ResponseModel(200, "Account successfully funded", model));
                         return BadRequest(new ResponseModel(400, "Funding Failed", model));
@@ -256,6 +250,7 @@ namespace EWallet.Api.Controllers
         }
 
         [HttpGet]
+        [Route("")]
         public async Task<IActionResult> GetAllWallet()
         {
             try
@@ -287,6 +282,28 @@ namespace EWallet.Api.Controllers
                 {
                     var wallets = await _walletRepo.GetWalletById(walletId);
                     return Ok(new ResponseModel(200, "success", wallets));
+                }
+                return Unauthorized(new ResponseModel(401, "You are not authorized to access this route", userId));
+            }
+            catch (Exception)
+            {
+                return BadRequest(new ResponseModel(400, "Login Failed", null));
+            }
+        }
+
+
+        [HttpPost]
+        [Route("delete{walletId}")]
+        public async Task<IActionResult> DeleteWallet(int walletId)
+        {
+            try
+            {
+                var userId = _httpContext.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                var user = await _userManager.FindByIdAsync(userId);
+                if (user.Role == "Admin")
+                {
+                    var wallets = await _walletRepo.DeleteWallet(walletId);
+                    return Ok(new ResponseModel(200, "success", walletId));
                 }
                 return Unauthorized(new ResponseModel(401, "You are not authorized to access this route", userId));
             }

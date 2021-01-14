@@ -40,7 +40,7 @@ namespace EWallet.Api.Controllers
         }
         [HttpPost]
         [Route("register", Name = "register")]
-        public async Task<IActionResult> RegisterUser([FromBody] UserToRegisterDTO model)
+        public async Task<IActionResult> RegisterUser(UserToRegisterDTO model)
         {
             try
             {
@@ -78,14 +78,14 @@ namespace EWallet.Api.Controllers
                     if (signInResult.Succeeded)
                     {
                         var token = TokenConfig.GenerateToken(user, _config);
-                        return Ok(new ResponseModel(200, "User Was successfully Logged in", new { token }));
+                        return Ok(new ResponseModel(200, "User Was successfully Logged in", token));
                     }
                     return BadRequest(new ResponseModel(400, "Login Failed", signInResult));
                 }
                 var errors = ModelState.Values.Select(model => model.Errors).ToList();
                 return BadRequest(new ResponseModel(400, "There are some validation Errors", errors));
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return BadRequest(new ResponseModel(400, "Failed", model));
             }
@@ -150,6 +150,7 @@ namespace EWallet.Api.Controllers
             }
         }
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> GetAllUsers()
         {
             try
@@ -171,6 +172,7 @@ namespace EWallet.Api.Controllers
 
         [HttpGet]
         [Route("{userId}")]
+        [Authorize]
         public async Task<IActionResult> GetUsersById( string userId)
         {
             try
@@ -188,6 +190,23 @@ namespace EWallet.Api.Controllers
             {
                 return BadRequest(new ResponseModel(400, "Login Failed", null));
             }
+        }
+
+        [HttpPost]
+        [Route("delete")]
+        [AllowAnonymous]
+        public async Task<IActionResult> DeleteUser(UserToDeleteDTO model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.FindByIdAsync(model.UserId);
+                var deletionResult = await _userManager.DeleteAsync(user);
+                if (deletionResult.Succeeded)
+                    return Ok(new ResponseModel(204, "successfully deleted", user));
+                return BadRequest();
+            }
+            var errors = ModelState.Values.Select(model => model.Errors).ToList();
+            return BadRequest(new ResponseModel(400, "There are some validation Errors", errors));
         }
     }
 }
