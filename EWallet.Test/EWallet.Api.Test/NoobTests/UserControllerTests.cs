@@ -93,7 +93,7 @@ namespace EWallet.Api.Test.Controllers
             var deletCurrentUser = await _client.SendAsync(new HttpRequestMessage
             {
                 RequestUri = new Uri("http://localhost/api/user/delete"),
-                Method = HttpMethod.Post,
+                Method = HttpMethod.Delete,
                 Content = new StringContent(JsonSerializer.Serialize(new UserToDeleteDTO { UserId = userToReturn.Id }), Encoding.UTF8, "application/json"),
             });
 
