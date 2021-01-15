@@ -192,7 +192,7 @@ namespace EWallet.Api.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpDelete]
         [Route("delete")]
         [AllowAnonymous]
         public async Task<IActionResult> DeleteUser(UserToDeleteDTO model)

@@ -292,7 +292,7 @@ namespace EWallet.Api.Controllers
         }
 
 
-        [HttpPost]
+        [HttpDelete]
         [Route("delete{walletId}")]
         public async Task<IActionResult> DeleteWallet(int walletId)
         {
