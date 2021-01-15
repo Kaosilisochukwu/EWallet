@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.30804.86
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EWallet.Api", "EWallet.Api\EWallet.Api.csproj", "{5E04EEDD-BD8D-4022-8058-9198FFF9B9E0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EWallet.Api.Test", "EWallet.Test\EWallet.Api.Test\EWallet.Api.Test.csproj", "{91956EFF-EB5C-4C38-9332-4C618C96ACC1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EWallet.Api.Test", "EWallet.Test\EWallet.Api.Test\EWallet.Api.Test.csproj", "{91956EFF-EB5C-4C38-9332-4C618C96ACC1}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{ACDC6486-FF5B-48C0-A4CC-2B98DAFEF967}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{91956EFF-EB5C-4C38-9332-4C618C96ACC1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{91956EFF-EB5C-4C38-9332-4C618C96ACC1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{91956EFF-EB5C-4C38-9332-4C618C96ACC1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ACDC6486-FF5B-48C0-A4CC-2B98DAFEF967}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ACDC6486-FF5B-48C0-A4CC-2B98DAFEF967}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ACDC6486-FF5B-48C0-A4CC-2B98DAFEF967}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ACDC6486-FF5B-48C0-A4CC-2B98DAFEF967}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
