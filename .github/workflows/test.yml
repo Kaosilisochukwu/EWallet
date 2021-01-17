@@ -18,8 +18,8 @@ jobs:
       with:
         dotnet-version: 5.0.x
     - name: Restore dependencies
-      run: dotnet restore EWallet.Api.Test
+      run: dotnet restore EWallet.Test/EWallet.Api.Test
     - name: Build
-      run: dotnet build --no-restore EWallet.Api.Test
+      run: dotnet build --no-restore EWallet.Test/EWallet.Api.Test
     - name: Test
       run: dotnet test --no-build --verbosity normal
