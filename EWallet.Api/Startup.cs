@@ -32,7 +32,7 @@ namespace EWallet.Api
             services.AddAutoMapper(typeof(MappingProfiles));
             services.AddControllers();
             services.AddHealthChecks();
-            services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DbConnection")));
+            services.AddDbContext<AppDbContext>(option => option.UseSqlite(Configuration.GetConnectionString("Value")));
             services.AddScoped<WalletRepository>();
             services.AddScoped<UserRepository>();
             services.AddIdentityCore<User>().AddEntityFrameworkStores<AppDbContext>();
@@ -101,9 +101,9 @@ namespace EWallet.Api
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "EWallet.Api v1"));
             }
+            app.UseSwagger();
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "EWallet.Api"));
 
             app.UseRouting();
             app.UseAuthentication();
@@ -111,7 +111,6 @@ namespace EWallet.Api
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapHealthChecks("/healthCare");
                 endpoints.MapControllers();
             });
         }

@@ -85,7 +85,7 @@ namespace EWallet.Api.Controllers
                 var errors = ModelState.Values.Select(model => model.Errors).ToList();
                 return BadRequest(new ResponseModel(400, "There are some validation Errors", errors));
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return BadRequest(new ResponseModel(400, "Failed", model));
             }

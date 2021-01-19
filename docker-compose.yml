@@ -1,14 +1,14 @@
-version: '3.4'
-
+version: "3.4"
 services:
-  ewallet.api:
-    image: ${DOCKER_REGISTRY-}ewalletapi
-    build:
-      context: .
-      dockerfile: EWallet.Api/Dockerfile
-    depends_on:
-            - db
-  db:
-    image: "mcr.microsoft.com/mssql/server"
+  ms-sql-server:
+    image: mcr.microsoft.com/mssql/server:2017-latest-ubuntu
     environment:
-        ACCEPT_EULA: "Y"
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "Password10EW"
+      MSSQL_PID: Express
+    ports:
+      - "1433:1433"
+  e-wallet:
+    build: .
+    ports:
+      - "8080:80"

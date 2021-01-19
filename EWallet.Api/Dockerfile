@@ -1,21 +1,21 @@
 #See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
 
-FROM mcr.microsoft.com/dotnet/aspnet:5.0-buster-slim AS base
+FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build-env
 WORKDIR /app
-EXPOSE 80
 
-FROM mcr.microsoft.com/dotnet/sdk:5.0-buster-slim AS build
-WORKDIR /src
-COPY ["EWallet.Api/EWallet.Api.csproj", "EWallet.Api/"]
-RUN dotnet restore "EWallet.Api/EWallet.Api.csproj"
-COPY . .
-WORKDIR "/src/EWallet.Api"
-RUN dotnet build "EWallet.Api.csproj" -c Release -o /app/build
+# Copy csproj and restore as distinct layers
+COPY *.csproj ./
+RUN dotnet restore
 
-FROM build AS publish
-RUN dotnet publish "EWallet.Api.csproj" -c Release -o /app/publish
+# Copy everything else and build
+COPY . ./
 
-FROM base AS final
+#Build project
+RUN dotnet publish -c Release -o out
+
+# Build runtime image
+FROM mcr.microsoft.com/dotnet/core/aspnet:3.1 as runtime
 WORKDIR /app
-COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "EWallet.Api.dll"]
+COPY --from=build-env /app/EWallet.db .
+COPY --from=build-env /app/out .
+CMD ["dotnet", "EWallet.Api.dll"]
