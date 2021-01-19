@@ -45,11 +45,12 @@ to run the application and start testing the endpoint on your.
 
 follow this link to the documentation
 
+- [Link](https://noobelitewallet.herokuapp.com/swagger/index.html)
 - [Documentation](https://docs.google.com/spreadsheets/d/1vDK73LtvL4geYoGEt81woP72SUz18sXqVZipLrk2gTc/edit?usp=sharing)
 
 # Technology used
 
-- Database: MSSQL
+- Database: SQLite
 - Language: ASP.Net C#
 - ORM: Entity Framework
 - Authentication: JWT
