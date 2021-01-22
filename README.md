@@ -49,6 +49,9 @@ follow this link to the documentation
 
 ### API link
 - [Link](https://noobelitewallet.herokuapp.com/swagger/index.html)
+#### Admin Login Details
+- Email: jamesbad@muse.com
+- Password : 01234Admin
 
 # Technology used
 
