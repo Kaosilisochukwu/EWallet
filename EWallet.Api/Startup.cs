@@ -2,6 +2,7 @@ using AutoMapper;
 using EWallet.Api.Data;
 using EWallet.Api.Model;
 using EWallet.Api.Services.Repositories;
+using EWallet.Api.Utils;
 using ExpenseTracker.WebAPI.Maps;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -96,7 +97,7 @@ namespace EWallet.Api
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, UserManager<User> userManager, AppDbContext context)
         {
             if (env.IsDevelopment())
             {
@@ -108,7 +109,7 @@ namespace EWallet.Api
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
-
+            Seeder.SeedData(userManager, context).Wait();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
